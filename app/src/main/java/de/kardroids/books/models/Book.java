@@ -1,11 +1,16 @@
 package de.kardroids.books.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.Date;
 
 /**
  * Created by kk on 02.03.15.
+ *
+ * 
  */
-public class Book {
+public class Book implements Parcelable {
 
     private Integer id;
 
@@ -134,4 +139,68 @@ public class Book {
                 ", title='" + title + '\'' +
                 '}';
     }
+
+
+    // For Parcel - (Intent,Bundle)
+
+
+    public static final Parcelable.Creator<Book> CREATOR =
+            new Parcelable.Creator<Book>(){
+
+                @Override
+                public Book createFromParcel(Parcel source) {
+                    return new Book(source);
+                }
+
+                @Override
+                public Book[] newArray(int size) {
+                    return new Book[size];
+                }
+            };
+
+    public Book (Parcel source) {
+        readFromParcel(source);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
+        dest.writeInt(id);
+        dest.writeString(title);
+        dest.writeString(shortDescription);
+        dest.writeString(longDescription);
+        dest.writeString(authors);
+        dest.writeString(translator);
+        dest.writeString(publisher);
+        // hope this works
+        dest.writeLong(releaseDate.getTime());
+        dest.writeString(isbn10);
+        dest.writeString(isbn13);
+
+        dest.writeInt(numberSites);
+        dest.writeString(coverImagePath);
+    }
+
+    public void readFromParcel(Parcel source){
+        this.id = source.readInt();
+        this.title = source.readString();
+        this.shortDescription = source.readString();
+        this.longDescription = source.readString();
+        this.authors = source.readString();
+        this.translator = source.readString();
+        this.publisher = source.readString();
+        // hope this works
+        this.releaseDate =new Date(source.readLong());
+        this.isbn10 =source.readString();
+        this.isbn13 =source.readString();
+
+        this.id =source.readInt();
+        this.coverImagePath =source.readString();
+    }
 }
+
