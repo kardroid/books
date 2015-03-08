@@ -36,6 +36,8 @@ public class Book implements Parcelable {
 
     private String coverImagePath;
 
+    public Book() {}
+
     public Integer getId() {
         return id;
     }
