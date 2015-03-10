@@ -3,14 +3,14 @@ package de.kardroids.books.fragments;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-
-import java.util.ArrayList;
 import java.util.List;
 
+import de.kardroids.books.BooksApplication;
 import de.kardroids.books.helper.BookHelperSingleton;
 import de.kardroids.books.models.Book;
 
@@ -25,7 +25,7 @@ import de.kardroids.books.models.Book;
  */
 public class BookListFragment extends ListFragment {
 
-
+    private static final String TAG = BookListFragment.class.getSimpleName();
 
     /**
      * The serialization (saved instance state) Bundle key representing the
@@ -77,28 +77,12 @@ public class BookListFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        List<Book> bookList = new ArrayList<>();
+        final List<Book> bookList = ((BooksApplication) getActivity().getApplication()).getDatabaseHelper().findAllBooks();
 
-        Book tempBook1 = new Book();
-        tempBook1.setId(1);
-        tempBook1.setTitle("Darm mit Charme: Alles über ein unterschätztes Organ");
-        tempBook1.setAuthors("Giulia Enders");
-        tempBook1.setPublisher("Ullstein Hardcover");
-        tempBook1.setIsbn10("3550080417");
-        tempBook1.setIsbn13("978-3550080418");
+        Log.v(TAG, "Books: " + bookList);
 
-        bookList.add(tempBook1);
-
-        Book tempBook2 = new Book();
-        tempBook2.setId(2);
-        tempBook2.setTitle("Fit ohne Geräte: Trainieren Mit Dem Eigenen Körpergewicht");
-        tempBook2.setAuthors("Mark Lauren");
-        tempBook2.setPublisher("riva");
-        tempBook2.setIsbn10("3868831665");
-        tempBook2.setIsbn13("978-3868831665");
-
-        bookList.add(tempBook2);
-        BookHelperSingleton.getInstance().setBookList(bookList);
+        final Book book = ((BooksApplication) getActivity().getApplication()).getDatabaseHelper().findBookById(1L);
+        Log.v(TAG, "Book: " + book);
 
         setListAdapter(new ArrayAdapter<Book>(
                 getActivity(),

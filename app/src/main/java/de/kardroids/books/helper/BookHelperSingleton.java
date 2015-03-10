@@ -31,7 +31,7 @@ public class BookHelperSingleton {
         this.bookList = bookList;
     }
 
-    public Book findBookById(Integer id)
+    public Book findBookById(long id)
     {
         for(Book tempBook : this.bookList)
         {
